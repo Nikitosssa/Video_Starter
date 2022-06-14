@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Video Starter</string>
+    <string name="to_admin_button_name">Администратор</string>
+    <string name="to_client_button_name">Клиент</string>
+    <string name="admin_password_field_hint">Введите ключ администратора</string>
+    <string name="check_admin_key_access">ОК</string>
+    <string name="open_server_button">Открыть подключение</string>
+    <string name="connect_to_server_button">Подключиться</string>
+</resources>

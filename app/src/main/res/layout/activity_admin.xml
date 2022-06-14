@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/open_server_to_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="5dp"
+        android:onClick="onOpenServerClick"
+        android:text="@string/open_server_button"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/set_new_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/open_server_to_connection"
+        android:onClick="onSetMessageClick"
+        android:text="задать" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/mes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/open_server_to_connection"
+        android:hint="сообщение" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ip_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mes"
+        android:layout_centerHorizontal="true"
+        android:text="ip"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="20sp" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_below="@id/ip_value"
+        android:id="@+id/list_video"/>
+
+</RelativeLayout>

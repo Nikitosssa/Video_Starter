@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/for_client_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/to_client_button_name"
+        android:onClick="onToClientActivityClick"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/for_admin_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/for_client_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="onShowAuthClick"
+        android:text="@string/to_admin_button_name" />
+
+    <RelativeLayout
+        android:id="@+id/check_to_admin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/admin_password_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/admin_password_field_hint"
+            android:textColor="@android:color/holo_green_light"
+            android:textColorHint="@android:color/holo_red_light" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/check_to_admin_access"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/admin_password_field"
+            android:layout_centerHorizontal="true"
+            android:onClick="onCheckInputKeyClick"
+            android:text="@string/check_admin_key_access" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
