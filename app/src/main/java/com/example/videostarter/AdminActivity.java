@@ -1,15 +1,23 @@
 package com.example.videostarter;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,7 +25,6 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -25,10 +32,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.channels.ServerSocketChannel;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -38,10 +43,7 @@ public class AdminActivity extends AppCompatActivity {
                    ip;
     private Boolean end = true;
     private ListView videoList;
-    private ArrayList<String> videoNames;
-
-    public AdminActivity() {
-    }
+    private ArrayList<String> videoNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +60,57 @@ public class AdminActivity extends AppCompatActivity {
 
         try {
             ip = getLocalIpAddress();
+            ipTextView.setText(ip);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        ipTextView.setText(ip);
-
-        File directory = new File("/storage");
-        findVideos(directory, videoNames);
 
         ArrayAdapter<String> adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, videoNames);
+                    android.R.layout.simple_list_item_activated_1, videoNames);
 
         videoList.setAdapter(adapter);
+
+        videoList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.Q)
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                //TextView selectedView = (TextView) view;
+                //selectedView.setTextColor(Color.GREEN);
+                message = videoNames.get(position);
+            }
+        });
+
+        String[] projection = new String[] {
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.TITLE
+        };
+
+// content:// style URI for the "primary" external storage volume
+        Uri videos = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+
+// Make the query.
+        Cursor cur = getContentResolver().query(videos,
+                projection, // Which columns to return
+                null,       // Which rows to return (all rows)
+                null,       // Selection arguments (none)
+                null        // Ordering
+        );
+
+        Log.i("ListingImages"," query count=" + cur.getCount());
+        if (cur.moveToFirst()) {
+            String name;
+
+            int dateColumn = cur.getColumnIndex(
+                    MediaStore.Video.Media.TITLE);
+            do {
+                // Get the field values
+                name = cur.getString(dateColumn);
+                if (name.contains("test")){videoNames.add(name);}
+                // Do something with the values.
+                Log.i("ListingVideos", "  name =" + name);
+            } while (cur.moveToNext());
+        }
     }
 
     private String getLocalIpAddress() throws UnknownHostException {
@@ -120,33 +161,5 @@ public class AdminActivity extends AppCompatActivity {
 
     public void onSetMessageClick(View view){
         message = mesEditText.getText().toString();
-    }
-
-    public void findVideos(File dir, ArrayList<String> list){
-        for (File file : dir.listFiles()) {
-            if (file.isDirectory()) findVideos(file, list);
-            else if(file.getAbsolutePath().contains(".mp4")) list.add(file.getName());
-        }
-    }
-
-    public ArrayList<String> getAllMedia() {
-        HashSet<String> videoItemHashSet = new HashSet<>();
-        String[] projection = { MediaStore.Video.VideoColumns.DATA ,MediaStore.Video.Media.DISPLAY_NAME};
-        Cursor cursor = this.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
-        try {
-            cursor.moveToFirst();
-            do{
-                videoItemHashSet.add((cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA))));
-            }while(cursor.moveToNext());
-
-            cursor.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ArrayList<String> downloadedList = new ArrayList<>(videoItemHashSet);
-        for (String s: downloadedList) {
-            Log.e("TAG", "getAllMedia: " + s );
-        }
-        return downloadedList;
     }
 }

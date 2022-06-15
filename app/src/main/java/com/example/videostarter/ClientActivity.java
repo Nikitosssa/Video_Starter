@@ -34,22 +34,16 @@ public class ClientActivity extends AppCompatActivity {
         message = messageTextView.getText().toString();
     }
 
-    public void onSetIpClick(View view) throws UnknownHostException {
+    public void onSetIpClick(View view){
         ip = ipEditText.getText().toString();
 
-
-        Log.e("TAG", "-----------------------------------------");
         class ClientThread extends Thread{
             public void run(){
                 try {
                     while(true) {
                         sleep(500);
-                        Log.e("TAG", " thread starts ");
                         Socket socket = new Socket(InetAddress.getByName(ip), 1770);
-                        //InputStream in = socket.getInputStream();
-                        Log.e("TAG", " connection passed ");
                         BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        Log.e("TAG", " bufferreader created ");
                         message = input.readLine();
                         if (!message.equals(oldMessage)){
                             oldMessage = message;
@@ -57,7 +51,6 @@ public class ClientActivity extends AppCompatActivity {
                                 messageTextView.setText(message);
                             });
                         }
-                        Log.e("TAG", "onSetIpClick: geted " + message);
                         socket.close();
                     }
                 } catch (UnknownHostException e) {
