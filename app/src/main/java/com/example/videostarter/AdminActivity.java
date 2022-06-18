@@ -19,6 +19,7 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import java.util.HashSet;
 
 public class AdminActivity extends AppCompatActivity {
 
+    private Button toConnectButton;
     private TextView ipTextView;
     private EditText mesEditText;
     private String message,
@@ -44,11 +46,14 @@ public class AdminActivity extends AppCompatActivity {
     private Boolean end = true;
     private ListView videoList;
     private ArrayList<String> videoNames = new ArrayList<>();
+    private ServerSocket serverSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+
+        toConnectButton = findViewById(R.id.open_server_to_connection);
 
         mesEditText = findViewById(R.id.mes);
         message = mesEditText.getText().toString();
@@ -130,12 +135,25 @@ public class AdminActivity extends AppCompatActivity {
         Log.e("TAG", "-----------------------------------------");
         end = !end;
         Log.e("TAG", "onOpenServerClick: end = "+end.toString());
-        if (!end) {ipTextView.setTextColor(Color.GREEN);}
-        else {ipTextView.setTextColor(Color.RED);}
+        if (!end) {
+            ipTextView.setTextColor(Color.GREEN);
+            toConnectButton.setText("Закрыть подключения");}
+        else {
+            ipTextView.setTextColor(Color.RED);
+            toConnectButton.setText("Открыть подключения");
+
+        }
         class ServerThread extends Thread {
             public void run(){
                 try {
-                    ServerSocket serverSocket = new ServerSocket(1770);
+
+                    if (serverSocket != null){
+                        ;
+                    }
+                    else{
+                        serverSocket = new ServerSocket(1770);
+                    }
+
                     while(true) {
                         Socket socket = serverSocket.accept();
                         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
