@@ -83,13 +83,13 @@ public class AdminActivity extends AppCompatActivity {
 
         String[] projection = new String[] {
                 MediaStore.Video.Media._ID,
-                MediaStore.Video.Media.TITLE
+                MediaStore.Video.Media.DISPLAY_NAME
         };
 
-// content:// style URI for the "primary" external storage volume
+        // content:// style URI for the "primary" external storage volume
         Uri videos = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
 
-// Make the query.
+        // Make the query.
         Cursor cur = getContentResolver().query(videos,
                 projection, // Which columns to return
                 null,       // Which rows to return (all rows)
@@ -102,7 +102,7 @@ public class AdminActivity extends AppCompatActivity {
             String name;
 
             int dateColumn = cur.getColumnIndex(
-                    MediaStore.Video.Media.TITLE);
+                    MediaStore.Video.Media.DISPLAY_NAME);
             do {
                 // Get the field values
                 name = cur.getString(dateColumn);
@@ -140,7 +140,7 @@ public class AdminActivity extends AppCompatActivity {
                         Socket socket = serverSocket.accept();
                         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
                         output.println(message);
-                        Log.e("TAG", "Message = " + message);
+                        Log.e("TAG", "Message = '" + message+"'");
                         socket.close();
                         if (end) {
                             Log.e("TAG", "run: ServerBreaked" );break; }
@@ -159,7 +159,7 @@ public class AdminActivity extends AppCompatActivity {
         serverThread.start();
     }
 
-    public void onSetMessageClick(View view){
-        message = mesEditText.getText().toString();
-    }
+    //public void onSetMessageClick(View view){
+    //    message = mesEditText.getText().toString();
+    //}
 }

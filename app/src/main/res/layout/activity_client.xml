@@ -9,15 +9,17 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/server_ip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/set_ip_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/server_ip"
+        android:onClick="onSetIpClick"
         android:text="@string/connect_to_server_button"
-        android:onClick="onSetIpClick" />
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/sent_message"

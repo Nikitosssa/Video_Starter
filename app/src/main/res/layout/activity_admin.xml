@@ -10,10 +10,10 @@
         android:id="@+id/open_server_to_connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="false"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="5dp"
         android:onClick="onOpenServerClick"
-        android:text="@string/open_server_button"/>
+        android:text="@string/open_server_button" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/set_new_message"
@@ -21,14 +21,17 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/open_server_to_connection"
         android:onClick="onSetMessageClick"
-        android:text="задать" />
+        android:text="задать"
+        android:visibility="gone"
+        tools:ignore="OnClick" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/mes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/open_server_to_connection"
-        android:hint="сообщение" />
+        android:hint="сообщение"
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/ip_value"
