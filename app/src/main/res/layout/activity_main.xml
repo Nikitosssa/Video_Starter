@@ -40,7 +40,8 @@
             android:layout_marginBottom="10dp"
             android:hint="@string/admin_password_field_hint"
             android:textColor="@android:color/holo_green_light"
-            android:textColorHint="@android:color/holo_red_light" />
+            android:textColorHint="@android:color/holo_red_light"
+            android:textAlignment="center"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/check_to_admin_access"
